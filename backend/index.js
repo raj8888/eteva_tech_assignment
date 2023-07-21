@@ -11,11 +11,12 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+app.use(cors())
 
 // Routes
 app.use('/companies', companyRoutes);
 
-app.use(cors())
+
 
 const PORT = process.env.PORT || 5000;
 
