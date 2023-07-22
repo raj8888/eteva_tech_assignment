@@ -48,7 +48,7 @@ router.post(
 
       await company.save();
 
-      res.status(201).json({msg:"company information saved successfully!",data:company});
+      res.json(company);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -135,7 +135,7 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ msg: 'Company not found' });
     }
 
-    res.status(200).json({ msg: 'Company Data is Updated Successfully',data:updatedCompany});
+    res.json(updatedCompany);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -157,6 +157,24 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id;
+
+    // Use the findById method of the Company model to fetch the company details
+    const company = await Company.findById(companyId);
+
+    if (!company) {
+      return res.status(404).json({ error: 'Company not found' });
+    }
+
+    res.json(company);
+  } catch (error) {
+    console.error('Error fetching company details:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
