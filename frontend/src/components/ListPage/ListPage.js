@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCompanyContext } from '../../context/CompanyContext';
 import CompanyCard from './CompanyCard';
 
 const ListPage = () => {
-  const { companies, currentPage, totalPages, handleNextPage, handlePreviousPage } = useCompanyContext();
+  const { companies, setCompanies, currentPage, totalPages, handleNextPage, handlePreviousPage } = useCompanyContext();
   const limitPerPage = 5;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [totalSearchResults, setTotalSearchResults] = useState(0);
   const [showSearchResults, setShowSearchResults] = useState(false);
+
+  const [sortingOrder, setSortingOrder] = useState('');
 
   const handleSearch = () => {
     const filteredCompanies = companies.filter((company) =>
@@ -27,6 +29,26 @@ const ListPage = () => {
     setShowSearchResults(false);
   };
 
+  // Function to handle sorting of companies
+  const handleSort = (event) => {
+    const selectedSortingOrder = event.target.value;
+    setSortingOrder(selectedSortingOrder);
+    const sortedCompanies = [...(showSearchResults ? searchResults : companies)];
+    sortedCompanies.sort((a, b) => {
+      if (selectedSortingOrder === 'asc') {
+        return a.companyName.localeCompare(b.companyName);
+      } else if (selectedSortingOrder === 'desc') {
+        return b.companyName.localeCompare(a.companyName);
+      }
+      return 0;
+    });
+    if (showSearchResults) {
+      setSearchResults(sortedCompanies);
+    } else {
+      setCompanies(sortedCompanies);
+    }
+  };
+
   return (
     <div>
       <h1>Company List</h1>
@@ -41,6 +63,14 @@ const ListPage = () => {
         {showSearchResults && <button onClick={handleClearSearch}>Clear Search</button>}
       </div>
       {showSearchResults && <p>{`Showing ${totalSearchResults} search results`}</p>}
+      <div>
+        <label htmlFor="sortOrder">Sort by company:</label>
+        <select id="sortOrder" value={sortingOrder} onChange={handleSort}>
+          <option value="">Select</option>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
       {(showSearchResults && totalSearchResults > 0 ? searchResults : companies).map((company) => (
         <CompanyCard key={company._id} company={company} />
       ))}
