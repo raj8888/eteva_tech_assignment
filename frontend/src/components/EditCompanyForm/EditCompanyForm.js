@@ -19,7 +19,7 @@ const EditCompanyForm = ({ onSave, onCancel }) => {
     // Fetch the company data from the backend using the company ID from the URL
     const fetchCompanyData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4500/companies/${id}`);
+        const response = await axios.get(`https://light-elk-suit.cyclic.app/companies/${id}`);
         const companyData = response.data;
         // Handle the case when the fetched logo data is null or undefined
         const logo = companyData.logo || '';
@@ -51,7 +51,7 @@ const EditCompanyForm = ({ onSave, onCancel }) => {
   const handleSave = () => {
     console.log(`Updating company with ID ${id} with data:`, formData);
     axios
-      .put(`http://localhost:4500/companies/${id}`, formData)
+      .put(`https://light-elk-suit.cyclic.app/companies/${id}`, formData)
       .then((response) => {
         console.log('Company updated successfully!', response.data);
         alert('Company updated successfully!')

@@ -15,7 +15,8 @@ export const CompanyProvider = ({ children }) => {
   // Fetch companies from the API
   const fetchCompanies = async () => {
     try {
-      const response = await fetch(`http://localhost:4500/companies/?page=${currentPage}&limit=${limitPerPage}`);
+      const response = await fetch(
+        `https://light-elk-suit.cyclic.app/companies/?page=${currentPage}&limit=${limitPerPage}`);
       const data = await response.json();
       setCompanies(data.companies);
       setTotalCompanies(data.total);
@@ -27,7 +28,7 @@ export const CompanyProvider = ({ children }) => {
   // Add a new company to the companies state and make a POST request to the API
   const addCompany = async (newCompany) => {
     try {
-      const response = await fetch('http://localhost:4500/companies/', {
+      const response = await fetch('https://light-elk-suit.cyclic.app/companies/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ export const CompanyProvider = ({ children }) => {
   // Update the company in the companies state and make a PUT request to the API
   const updateCompany = async (companyId, updatedCompany) => {
     try {
-      const response = await fetch(`http://localhost:4500/companies/${companyId}`, {
+      const response = await fetch(`https://light-elk-suit.cyclic.app/companies/${companyId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ export const CompanyProvider = ({ children }) => {
   // Delete the company from the companies state and make a DELETE request to the API
   const deleteCompany = async (companyId) => {
     try {
-      await fetch(`http://localhost:4500/companies/${companyId}`, {
+      await fetch(`https://light-elk-suit.cyclic.app/companies/${companyId}`, {
         method: 'DELETE',
       });
       setCompanies((prevCompanies) =>
