@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCompanyContext } from '../../context/CompanyContext';
 import CompanyCard from './CompanyCard';
+import './ListPage.css';
 
 const ListPage = () => {
   const { companies, setCompanies, currentPage, totalPages, handleNextPage, handlePreviousPage } = useCompanyContext();
@@ -50,36 +51,61 @@ const ListPage = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Company List</h1>
-      <div>
+      <div className="search-container">
         <input
+          className="search-input"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by company name"
         />
-        <button onClick={handleSearch}>Search</button>
-        {showSearchResults && <button onClick={handleClearSearch}>Clear Search</button>}
+        <div className="search-buttons">
+          <button className="search-button" onClick={handleSearch}>
+            Search
+          </button>
+          {showSearchResults && (
+            <button className="clear-button" onClick={handleClearSearch}>
+              Clear
+            </button>
+          )}
+        </div>
       </div>
       {showSearchResults && <p>{`Showing ${totalSearchResults} search results`}</p>}
-      <div>
-        <label htmlFor="sortOrder">Sort by company:</label>
-        <select id="sortOrder" value={sortingOrder} onChange={handleSort}>
+      <div className="sort-container">
+        <label className="sort-label" htmlFor="sortOrder">
+          Sort by company:
+        </label>
+        <select className="sort-select" id="sortOrder" value={sortingOrder} onChange={handleSort}>
           <option value="">Select</option>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
       </div>
-      {(showSearchResults && totalSearchResults > 0 ? searchResults : companies).map((company) => (
-        <CompanyCard key={company._id} company={company} />
-      ))}
-      <div>
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+      <div className="company-list">
+        {(showSearchResults && totalSearchResults > 0 ? searchResults : companies).map((company) => (
+          <CompanyCard key={company._id} company={company} />
+        ))}
+      </div>
+      <div className="pagination">
+        <button
+          className="pagination-button"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
           Previous
         </button>
-        <span>{`Page ${currentPage} of ${showSearchResults ? Math.ceil(totalSearchResults / limitPerPage) : totalPages}`}</span>
-        <button onClick={handleNextPage} disabled={currentPage === (showSearchResults ? Math.ceil(totalSearchResults / limitPerPage) : totalPages)}>
+        <span>{`Page ${currentPage} of ${
+          showSearchResults
+            ? Math.ceil(totalSearchResults / limitPerPage)
+            : totalPages
+        }`}</span>
+        <button
+          className="pagination-button"
+          onClick={handleNextPage}
+          disabled={currentPage === (showSearchResults ? Math.ceil(totalSearchResults / limitPerPage) : totalPages)}
+        >
           Next
         </button>
       </div>

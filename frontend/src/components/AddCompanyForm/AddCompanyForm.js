@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCompanyContext } from '../../context/CompanyContext';
 import {  Link, useNavigate } from 'react-router-dom';
+import './AddCompanyForm.css';
 
 const AddCompanyForm = () => {
   const { addCompany } = useCompanyContext();
@@ -85,7 +86,7 @@ const AddCompanyForm = () => {
           type="text"
           id="logo"
           name="logo"
-          value={formData.logo}
+          value={formData.logoUrl}
           onChange={handleChange}
           required
         />
@@ -110,7 +111,7 @@ const AddCompanyForm = () => {
           required
         />
 
-        <div>
+        <div className='buttonall'>
           <button type="submit">Submit</button>
           <button type="button" onClick={handleCancel}>Cancel</button>
         </div>

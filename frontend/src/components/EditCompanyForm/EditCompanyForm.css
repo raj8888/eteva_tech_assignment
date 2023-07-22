@@ -1,0 +1,56 @@
+/* EditCompanyForm.css */
+
+.edit-company-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0; /* Set the background color for the form */
+    border-radius: 5px;
+    padding-right: 30px;
+  }
+  
+  .edit-company-form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .edit-company-form input,
+  .edit-company-form textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .edit-company-form .form-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .edit-company-form .save-button {
+    background-color: #ffc107; /* Set the background color for the Save button */
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-company-form .cancel-button {
+    background-color: #dc3545; /* Set the background color for the Cancel button */
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .heading{
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .form-buttons button{
+    width: 45%;
+  }

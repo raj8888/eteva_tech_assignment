@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './EditCompanyForm.css'; // Import the CSS file for EditCompanyForm
 
 const EditCompanyForm = ({ onSave, onCancel }) => {
   const { id } = useParams();
@@ -54,12 +55,12 @@ const EditCompanyForm = ({ onSave, onCancel }) => {
       .put(`https://light-elk-suit.cyclic.app/companies/${id}`, formData)
       .then((response) => {
         console.log('Company updated successfully!', response.data);
-        alert('Company updated successfully!')
+        alert('Company updated successfully!');
         window.location = '/';
       })
       .catch((error) => {
         console.error('Error updating company:', error);
-        alert(`${error.message}`)
+        alert(`${error.message}`);
       });
   };
 
@@ -69,7 +70,9 @@ const EditCompanyForm = ({ onSave, onCancel }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className='container'>
+      <h2 className='heading'>Update Company Information</h2>
+      <form className="edit-company-form" onSubmit={handleSubmit}>
       <label htmlFor="companyName">Company Name</label>
       <input
         type="text"
@@ -112,8 +115,8 @@ const EditCompanyForm = ({ onSave, onCancel }) => {
       <label htmlFor="logo">Logo</label>
       <input
         type="text"
-        id="companyName"
-        name="companyName"
+        id="logo"
+        name="logo"
         value={formData.logoUrl}
         onChange={handleChange}
         required
@@ -139,13 +142,16 @@ const EditCompanyForm = ({ onSave, onCancel }) => {
         required
       />
 
-<button type="button" onClick={handleSave}>
-        Save
-      </button>
-      <button type="button" onClick={handleCancel}>
-        Cancel
-      </button>
+      <div className="form-buttons">
+        <button type="button" className="save-button" onClick={handleSave}>
+          Save
+        </button>
+        <button type="button" className="cancel-button" onClick={handleCancel}>
+          Cancel
+        </button>
+      </div>
     </form>
+    </div>
   );
 };
 

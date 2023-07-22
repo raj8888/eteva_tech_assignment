@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCompanyContext } from '../../context/CompanyContext';
+import './CompanyCard.css'; // Import the CSS file
 
 const CompanyCard = ({ company }) => {
   const { deleteCompany } = useCompanyContext();
