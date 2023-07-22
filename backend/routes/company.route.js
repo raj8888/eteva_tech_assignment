@@ -61,20 +61,28 @@ router.post(
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
+    let { page = 1, limit = 5 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
 
     const totalCount = await Company.countDocuments();
+    const totalPages = Math.ceil(totalCount / limit);
+
+    if (page < 1 || page > totalPages) {
+      return res.status(400).json({ error: 'Invalid page number' });
+    }
 
     const companies = await Company.find()
       .skip((page - 1) * limit)
-      .limit(parseInt(limit));
+      .limit(limit);
 
-    res.json({ total: totalCount, page, limit, companies });
+    res.json({ total: totalCount, totalPages, page, limit, companies });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
+
 
 // @route   GET /api/companies/sort
 // @desc    Get sorted list of companies
