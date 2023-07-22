@@ -13,7 +13,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<ListPage />} />
-          <Route path="/add" element={<AddCompanyForm />} />
+          <Route path="/create" element={<AddCompanyForm />} />
           <Route
             path="/edit/:id"
             element={

@@ -36,6 +36,7 @@ export const CompanyProvider = ({ children }) => {
       });
       const data = await response.json();
       setCompanies((prevCompanies) => [...prevCompanies, data]);
+      alert("Company Data Added Successfully!")
     } catch (error) {
       console.error('Error adding company:', error);
     }

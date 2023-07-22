@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useCompanyContext } from '../../context/CompanyContext';
+import {  Link, useNavigate } from 'react-router-dom';
 
 const AddCompanyForm = () => {
   const { addCompany } = useCompanyContext();
+  const navigate = useNavigate(); 
 
   const initialState = {
     companyName: '',
@@ -28,6 +30,11 @@ const AddCompanyForm = () => {
     e.preventDefault();
     addCompany(formData);
     setFormData(initialState);
+    navigate('/');
+  };
+
+  const handleCancel = () => {
+    navigate('/');
   };
 
   return (
@@ -73,11 +80,12 @@ const AddCompanyForm = () => {
           required
         />
 
-        <label htmlFor="logo">Logo</label>
+        <label htmlFor="logo">Logo URL</label>
         <input
-          type="file"
+          type="text"
           id="logo"
           name="logo"
+          value={formData.logo}
           onChange={handleChange}
           required
         />
@@ -102,7 +110,10 @@ const AddCompanyForm = () => {
           required
         />
 
-        <button type="submit">Submit</button>
+        <div>
+          <button type="submit">Submit</button>
+          <button type="button" onClick={handleCancel}>Cancel</button>
+        </div>
       </form>
     </div>
   );
