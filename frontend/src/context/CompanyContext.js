@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect} from 'react';
 
 const CompanyContext = createContext();
 
@@ -6,18 +6,19 @@ export const useCompanyContext = () => useContext(CompanyContext);
 
 export const CompanyProvider = ({ children }) => {
   const [companies, setCompanies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCompanies, setTotalCompanies] = useState(0);
+  const limitPerPage = 5;
 
-  useEffect(() => {
-    fetchCompanies();
-  }, []);
+  const totalPages = Math.ceil(totalCompanies / limitPerPage);
 
   // Fetch companies from the API
   const fetchCompanies = async () => {
     try {
-      const response = await fetch('http://localhost:4500/companies/');
+      const response = await fetch(`http://localhost:4500/companies/?page=${currentPage}&limit=${limitPerPage}`);
       const data = await response.json();
-      console.log(data.companies)
       setCompanies(data.companies);
+      setTotalCompanies(data.total);
     } catch (error) {
       console.error('Error fetching companies:', error);
     }
@@ -53,7 +54,7 @@ export const CompanyProvider = ({ children }) => {
       const data = await response.json();
       setCompanies((prevCompanies) =>
         prevCompanies.map((company) =>
-          company.id === companyId ? { ...company, ...data } : company
+          company._id === companyId ? { ...company, ...data } : company
         )
       );
     } catch (error) {
@@ -70,19 +71,42 @@ export const CompanyProvider = ({ children }) => {
       setCompanies((prevCompanies) =>
         prevCompanies.filter((company) => company.id !== companyId)
       );
-      fetchCompanies()
+      fetchCompanies();
     } catch (error) {
       console.error('Error deleting company:', error);
     }
   };
+
+  
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  useEffect(() => {
+    fetchCompanies();
+  }, [currentPage]);
+
 
   return (
     <CompanyContext.Provider
       value={{
         companies,
         addCompany,
+        setCompanies, 
         updateCompany,
         deleteCompany,
+        currentPage,
+        totalPages,
+        handleNextPage,
+        handlePreviousPage,
       }}
     >
       {children}
